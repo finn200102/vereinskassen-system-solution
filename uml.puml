@@ -1,0 +1,95 @@
+@startuml Vereinskassen-System
+
+' Enums
+enum UserRole {
+    ADMIN
+    TREASURER
+    FINANCE_REFEREE
+}
+
+' Classes
+class User {
+    - username: str
+    - password_hash: str
+    - role: UserRole
+    - department: str
+    + authenticate(password: str): bool
+    + has_permission(action: str): bool
+}
+
+class Account {
+    - account_id: str
+    - department: str
+    - balance: float
+    - treasurer: User
+    + get_balance(): float
+    + add_transaction(transaction: Transaction): bool
+}
+
+class Transaction {
+    - transaction_id: str
+    - timestamp: datetime
+    - amount: float
+    - type: str
+    - source_account: Account
+    - target_account: Account
+    - description: str
+    + is_valid(): bool
+}
+
+class DataHandler {
+    - users_file: str
+    - accounts_file: str
+    - transactions_file: str
+    + save_data(): bool
+    + load_data(): bool
+    + export_to_csv(): bool
+}
+
+' GUI Classes
+abstract class BaseWindow {
+    # root: Tk
+    # current_user: User
+    + show()
+    + hide()
+}
+
+class LoginWindow {
+    - username_entry: Entry
+    - password_entry: Entry
+    + validate_login(): bool
+    + switch_to_appropriate_window()
+}
+
+class AdminWindow {
+    + create_account()
+    + create_user()
+    + view_all_accounts()
+    + save_system_state()
+}
+
+class TreasurerWindow {
+    + make_transaction()
+    + view_account_history()
+    + view_balance()
+}
+
+class FinanceWindow {
+    + view_all_accounts()
+    + view_account_details()
+    + generate_reports()
+}
+
+' Relationships
+User "1" -- "1" UserRole
+Account "1" -- "1" User
+Transaction "0..*" -- "2" Account
+BaseWindow <|-- LoginWindow
+BaseWindow <|-- AdminWindow
+BaseWindow <|-- TreasurerWindow
+BaseWindow <|-- FinanceWindow
+DataHandler -- User
+DataHandler -- Account
+DataHandler -- Transaction
+
+@enduml

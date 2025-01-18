@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Project specific
+data/*.csv
+!data/.gitkeep
