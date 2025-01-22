@@ -4,14 +4,14 @@ from src.models.user_role import UserRole
 
 class User():
     """The User class."""
-    def __init__(self, username: str, password: str, role: UserRole, department: str):
+    def __init__(self, username: str, password: str, role: str, department: str):
         """
         Initializes the User Class.
 
         Args:
             username(str): The username
             password(str): The unhashed password
-            role(UserRole): The UserRole
+            role(str): The UserRole
             department(str): The department of the user
         """
         self.username = username
