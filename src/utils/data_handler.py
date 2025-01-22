@@ -40,7 +40,16 @@ class DataHandler:
             data_type(string): The data_type 
             key(string/int): The primary key of the data_type
         """
-        pass
+        if data_type == "user":
+            matches = list(filter(lambda user: user.username == key, self.users))
+            return matches[0] if matches else None
+            
+        if data_type == "account":
+            matches = list(filter(lambda account: account.account_id == key, self.accounts))
+            return matches[0] if matches else None
+        if data_type == "transaction":
+            matches = list(filter(lambda transaction: transaction.transaction_id == key, self.transactions))
+            return matches[0] if matches else None
 
     def import_from_csv():
         """

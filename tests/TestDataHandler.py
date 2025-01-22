@@ -16,7 +16,19 @@ def test_add_user(data_handler: DataHandler):
     data_handler.save_data(user)
     assert data_handler.users[0] == user
     print("Test add_user has passed")
-    
+
+
+def test_load_user(data_handler: DataHandler):
+    """
+    Test load_data with a user.
+
+    Args:
+        data_handler(DataHandler): The data handler
+    """
+    user = User("franz", "1234", UserRole.admin, "running")
+    data_handler.save_data(user)
+    assert data_handler.load_data("user", "franz") == user
+    print("Test load_user has passed")
 
 
 def main():
@@ -26,6 +38,7 @@ def main():
     transactions_file = "tests/files/transactions_file.csv"
     data_handler = DataHandler(users_file, accounts_file, transactions_file)
     test_add_user(data_handler)
+    test_load_user(data_handler)
     
 
 if __name__ == "__main__":
