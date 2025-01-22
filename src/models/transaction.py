@@ -6,7 +6,7 @@ from src.models.account import Account
 class Transaction():
     """The Transaction class."""
 
-    def __init__(self, transaction_id: str, time_stamp: datetime, amount: float, type: str,
+    def __init__(self, transaction_id: str, time_stamp: datetime, amount: float, transaction_type: str,
                  source_account: Account, target_account: Account, description: str):
         """
         Initializes the Transaction Class.
@@ -23,6 +23,7 @@ class Transaction():
         self.transaction_id = transaction_id
         self.time_stamp = time_stamp
         self.amount = amount
+        self.transaction_type = transaction_type
         self.source_account = source_account
         self.target_account = target_account
         self.description = description
