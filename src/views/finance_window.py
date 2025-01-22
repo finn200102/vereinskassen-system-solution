@@ -16,4 +16,6 @@ class FinanceView(ttk.Frame):
     def setup_ui(self):
         """Setup the ui."""
         label = ttk.Label(self, text="FinanceView")
+        status_label = ttk.Label(self, text="status")
         label.pack()
+        status_label.pack()
