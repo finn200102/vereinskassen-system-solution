@@ -2,12 +2,13 @@
 __author__ = "7157747, Gellien, 8425470, Heidusch"
 from src.utils.data_handler import DataHandler
 from src.models.user import User
+from src.models.account import Account
 from src.models.user_role import UserRole
 
 
 def test_add_user(data_handler: DataHandler):
     """
-    Test save_date with a user.
+    Test save_data with a user.
 
     Args:
         data_handler(DataHandler): The data handler
@@ -16,6 +17,20 @@ def test_add_user(data_handler: DataHandler):
     data_handler.save_data(user)
     assert data_handler.users[0] == user
     print("Test add_user has passed")
+
+
+def test_add_account(data_handler: DataHandler):
+    """
+    Test save_data with a account.
+
+    Args:
+        data_handler(DataHandler): The data handler
+    """
+    user = data_handler.load_data("user", "franz")
+    account = Account("abc", "sport", 0.4, user)
+    data_handler.save_data(account)
+    assert data_handler.accounts[0] == account
+    print("Test add_account has passed")
 
 
 def test_load_user(data_handler: DataHandler):
@@ -29,6 +44,9 @@ def test_load_user(data_handler: DataHandler):
     data_handler.save_data(user)
     assert data_handler.load_data("user", "franz") == user
     print("Test load_user has passed")
+
+
+
 
 
 def test_export_import_user(data_handler: DataHandler, users_file):
@@ -65,6 +83,8 @@ def main():
     test_add_user(data_handler)
     test_load_user(data_handler)
     test_export_import_user(data_handler, users_file)
+    # test account
+    test_add_account(data_handler)
     
    
 
