@@ -52,11 +52,17 @@ class DataHandler:
             matches = list(filter(lambda transaction: transaction.transaction_id == key, self.transactions))
             return matches[0] if matches else None
 
-    def import_from_csv():
+    def import_from_csv(self):
         """
         Load the full data from the csvs
         """
-        pass
+        try:
+            with open(self.users_file, 'r', newline='') as f:
+                user_dicts = list(csv.DictReader(f))
+                self.users = [self.convert_dict_to_user(user_dict) for user_dict in user_dicts]
+                
+        except FileNotFoundError:
+            print("Files not found")
 
     def convert_user_to_dict(self, user):
         """Convert user to dict"""
@@ -68,6 +74,15 @@ class DataHandler:
             "department": user.department
         }
         return user_dict
+
+    def convert_dict_to_user(self, user_dict):
+        """Convert user_dict to user"""
+        user = User(user_dict["username"],
+                    user_dict["password"],
+                    user_dict["role"],
+                    user_dict["department"])
+        return user
+        
 
     def convert_to_dict(self):
         """Convert to dict"""
