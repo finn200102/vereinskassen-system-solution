@@ -31,6 +31,31 @@ def test_load_user(data_handler: DataHandler):
     print("Test load_user has passed")
 
 
+def test_export_import_user(data_handler: DataHandler, users_file):
+    """
+    Test export_to_csv and import_from_csv with a user.
+
+    Args:
+        data_handler(DataHandler): The data handler
+    """
+    # clean the users_file
+    with open(users_file, 'w') as file:
+        file.write('')
+        
+    data_handler.export_to_csv()
+    data_handler.users = []
+    data_handler.import_from_csv()
+
+
+    assert data_handler.load_data("user", "franz").username == "franz"
+    print("Test import and export user passed")
+
+    # clean the users_file
+    with open(users_file, 'w') as file:
+        file.write('')
+
+
+
 def main():
     """Main Function."""
     users_file = "tests/files/users_file.csv"
@@ -39,6 +64,11 @@ def main():
     data_handler = DataHandler(users_file, accounts_file, transactions_file)
     test_add_user(data_handler)
     test_load_user(data_handler)
+    test_export_import_user(data_handler, users_file)
+    
+   
+
+    
     
 
 if __name__ == "__main__":
