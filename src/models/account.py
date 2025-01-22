@@ -15,7 +15,7 @@ class Account():
             treasurer(User): The treasurer/user of the account
         """
         self.account_id = account_id
-        self.department = deparrment
+        self.department = department
         self.balance = balance
         self.treasurer = treasurer
 
