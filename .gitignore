@@ -9,3 +9,4 @@ venv/
 # Project specific
 data/*.csv
 !data/.gitkeep
+/vereinskassen_system.egg-info/
