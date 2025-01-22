@@ -1,5 +1,8 @@
 """This is the DataHandler Module"""
 __author__ = "7157747, Gellien, 8425470, Heidusch"
+from src.models.user import User
+from src.models.account import Account
+from src.models.transaction import Transaction
 
 class DataHandler:
     """DataHandler Class that manages the loading and saving to csv"""
@@ -14,15 +17,20 @@ class DataHandler:
         self.accounts = []
         self.transactions = []
 
-    def save_data(self, data_type, data):
+    def save_data(self, data):
         """
-        Save an specific data object with data_type
+        Save an specific data object
 
         Args:
-            data_type(string): The data_type
             data(object): User, Accounts, Transactions
         """
-        pass
+        if type(data) == User:
+            self.users.append(data)
+        if type(data) == Account:
+            self.accounts.append(data)
+        if type(data) == Transaction:
+            self.transactions.append(data)
+        
 
     def load_data(self, data_type, key):
         """
@@ -42,5 +50,15 @@ class DataHandler:
     def export_to_csv():
         """
         Export the full data to the csvs
+                if type(data) == User:
+            self.users.append(
+                {
+                    "username": data.username,
+                    "password": data.password,
+                    "role": data.role,
+                    "department": data.department
+                }
+            )
         """
+        
         pass
