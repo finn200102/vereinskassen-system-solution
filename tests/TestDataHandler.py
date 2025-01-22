@@ -45,19 +45,33 @@ def test_load_user(data_handler: DataHandler):
     assert data_handler.load_data("user", "franz") == user
     print("Test load_user has passed")
 
-
-
-
-
-def test_export_import_user(data_handler: DataHandler, users_file):
+    
+def test_load_account(data_handler: DataHandler):
     """
-    Test export_to_csv and import_from_csv with a user.
+    Test load_data with a account.
 
     Args:
         data_handler(DataHandler): The data handler
     """
-    # clean the users_file
+    user = data_handler.load_data("user", "franz")
+    assert data_handler.load_data("user", "franz") == user
+    print("Test load_account has passed")
+
+
+
+def test_export_import(data_handler: DataHandler, users_file, accounts_file, transactions_file):
+    """
+    Test export_to_csv and import_from_csv
+
+    Args:
+        data_handler(DataHandler): The data handler
+    """
+    # clean the files
     with open(users_file, 'w') as file:
+        file.write('')
+    with open(accounts_file, 'w') as file:
+        file.write('')
+    with open(transactions_file, 'w') as file:
         file.write('')
         
     data_handler.export_to_csv()
@@ -66,10 +80,18 @@ def test_export_import_user(data_handler: DataHandler, users_file):
 
 
     assert data_handler.load_data("user", "franz").username == "franz"
-    print("Test import and export user passed")
+    user = data_handler.load_data("user", "franz")
+    assert data_handler.load_data("user", "franz") == user
 
-    # clean the users_file
+
+    print("Test import and export passed")
+
+    # clean the files
     with open(users_file, 'w') as file:
+        file.write('')
+    with open(accounts_file, 'w') as file:
+        file.write('')
+    with open(transactions_file, 'w') as file:
         file.write('')
 
 
@@ -82,9 +104,12 @@ def main():
     data_handler = DataHandler(users_file, accounts_file, transactions_file)
     test_add_user(data_handler)
     test_load_user(data_handler)
-    test_export_import_user(data_handler, users_file)
+
     # test account
     test_add_account(data_handler)
+    test_load_account(data_handler)
+
+    test_export_import(data_handler, users_file, accounts_file, transactions_file)
     
    
 
