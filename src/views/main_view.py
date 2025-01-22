@@ -6,6 +6,7 @@ from src.views.base_view import BaseView
 from src.views.login_window import LoginView
 from src.views.treasurer_window import TreasurerView
 from src.views.admin_window import AdministratorView
+from src.views.finance_window import FinanceView
 
 class MainView(ttk.Frame):
     """The View for the Mainwindow"""
@@ -14,7 +15,7 @@ class MainView(ttk.Frame):
         super().__init__(master)
         self.master = master
         self.current_view = None
-        self.role = 1 # for testing 0 is treasurer
+        self.role = 2 # for testing 0 is treasurer
         self.setup_ui()
 
     def setup_ui(self):
@@ -35,6 +36,9 @@ class MainView(ttk.Frame):
             self.current_view.pack()
         if self.role == 1:
             self.current_view = AdministratorView(self)
+            self.current_view.pack()
+        if self.role == 2:
+            self.current_view = FinanceView(self)
             self.current_view.pack()
         
         
