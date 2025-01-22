@@ -3,6 +3,7 @@ __author__ = "7157747, Gellien, 8425470, Heidusch"
 from src.models.user import User
 from src.models.account import Account
 from src.models.transaction import Transaction
+import csv
 
 class DataHandler:
     """DataHandler Class that manages the loading and saving to csv"""
@@ -56,18 +57,32 @@ class DataHandler:
         Load the full data from the csvs
         """
         pass
-    def export_to_csv():
+
+    def convert_user_to_dict(self, user):
+        """Convert user to dict"""
+
+        user_dict = {
+            "username": user.username,
+            "password": user.password,
+            "role": user.role,
+            "department": user.department
+        }
+        return user_dict
+
+    def convert_to_dict(self):
+        """Convert to dict"""
+        save_users = [self.convert_user_to_dict(user) for user in self.users]
+        return save_users
+    
+    def export_to_csv(self):
         """
         Export the full data to the csvs
-                if type(data) == User:
-            self.users.append(
-                {
-                    "username": data.username,
-                    "password": data.password,
-                    "role": data.role,
-                    "department": data.department
-                }
-            )
         """
+        save_users = self.convert_to_dict()
+        with open(self.users_file, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames = list(save_users[0].keys()))
+            writer.writeheader()
+            writer.writerows(save_users)
+            
+
         
-        pass
