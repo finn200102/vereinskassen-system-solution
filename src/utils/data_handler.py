@@ -57,9 +57,14 @@ class DataHandler:
         Load the full data from the csvs
         """
         try:
+            # Import users from csv
             with open(self.users_file, 'r', newline='') as f:
                 user_dicts = list(csv.DictReader(f))
                 self.users = [self.convert_dict_to_user(user_dict) for user_dict in user_dicts]
+            # Import accounts from csv
+            with open(self.accounts_file, 'r', newline='') as f:
+                account_dicts = list(csv.DictReader(f))
+                self.accounts = [self.convert_dict_to_account(account_dict) for account_dict in account_dicts]
                 
         except FileNotFoundError:
             print("Files not found")
@@ -75,6 +80,17 @@ class DataHandler:
         }
         return user_dict
 
+    def convert_account_to_dict(self, account):
+        """Convert account to dict"""
+
+        account_dict = {
+            "account_id": account.account_id,
+            "department": account.department,
+            "balance": account.balance,
+            "treasurer": account.treasurer.username
+        }
+        return account_dict
+
     def convert_dict_to_user(self, user_dict):
         """Convert user_dict to user"""
         user = User(user_dict["username"],
@@ -82,22 +98,39 @@ class DataHandler:
                     user_dict["role"],
                     user_dict["department"])
         return user
+
+    def convert_dict_to_account(self, account_dict):
+        """Convert account_dict to account"""
+        account = Account(account_dict["account_id"],
+                    account_dict["department"],
+                    account_dict["balance"],
+                    self.load_data("user", account_dict["treasurer"]))
+        return account
         
 
     def convert_to_dict(self):
         """Convert to dict"""
         save_users = [self.convert_user_to_dict(user) for user in self.users]
-        return save_users
+        save_accounts = [self.convert_account_to_dict(account) for account in self.accounts]
+        return save_users, save_accounts
     
     def export_to_csv(self):
         """
         Export the full data to the csvs
         """
-        save_users = self.convert_to_dict()
-        with open(self.users_file, 'w', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames = list(save_users[0].keys()))
-            writer.writeheader()
-            writer.writerows(save_users)
+        save_users, save_accounts = self.convert_to_dict()
+        # Export the Users to csv
+        if self.users:
+            with open(self.users_file, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames = list(save_users[0].keys()))
+                writer.writeheader()
+                writer.writerows(save_users)
+        # Export the Accounts to csv
+        if self.accounts:
+            with open(self.accounts_file, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames = list(save_accounts[0].keys()))
+                writer.writeheader()
+                writer.writerows(save_accounts)
             
 
         
