@@ -1,7 +1,6 @@
 """This is the Model for the Account class"""
 __author__ = "7157747, Gellien, 8425470, Heidusch"
 from src.models.user import User
-from src.models.transaction import Transaction
 
 class Account():
     """The Account class."""
@@ -20,11 +19,12 @@ class Account():
         self.balance = balance
         self.treasurer = treasurer
 
+
     def get_balance(self) -> float:
         """Return balance"""
         return self.balance
 
-    def add_transaction(transaction: Transaction) -> bool:
+    def add_transaction(transaction) -> bool:
         """
         Implement the transaction.
 
