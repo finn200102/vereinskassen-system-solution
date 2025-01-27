@@ -15,7 +15,7 @@ class MainView(ttk.Frame):
         super().__init__(master)
         self.master = master
         self.current_view = None
-        self.role = 2 # for testing 0 is treasurer
+        self.role = 1 # for testing 0 is treasurer
         self.setup_ui()
 
     def setup_ui(self):
