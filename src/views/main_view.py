@@ -31,6 +31,11 @@ class MainView(ttk.Frame):
         """Setup the ui."""
         self.show_login()
 
+    def create_user(self, username, password, department, role):
+        """Create User"""
+        self.data_handler.save_data(User(username, password, role, department))
+        print(f"Created new user {username}")
+
     def show_login(self):
         """Show the login View."""
         if self.current_view:
@@ -44,10 +49,10 @@ class MainView(ttk.Frame):
         if self.current_view:
             self.current_view.destroy()
         if self.role == "admin":
-            self.current_view = AdministratorView(self, self.show_login)
+            self.current_view = AdministratorView(self, self.show_login, self.create_user)
             self.current_view.pack()
         if self.role == "treasurer":
-            self.current_view = TreasurerView(self)
+            self.current_view = TreasurerView(self, self.show_login)
             self.current_view.pack()
         if self.role == "referee":
             self.current_view = FinanceView(self)

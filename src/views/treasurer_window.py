@@ -7,11 +7,17 @@ from src.views.base_view import BaseView
 class TreasurerView(ttk.Frame):
     """The View for the Treasurer"""
 
-    def __init__(self, parent):
+    def __init__(self, parent, setup_login):
         """Initilize the TreasurerView"""
+        self.logout = None
+        self.setup_login = setup_login
         super().__init__(parent)
         self.parent = parent
         self.setup_ui()
+
+    def log_out(self):
+        """Logout."""
+        self.setup_login()
 
     def setup_ui(self):
         """Setup the ui."""
@@ -25,6 +31,7 @@ class TreasurerView(ttk.Frame):
         transfer_button = ttk.Button(label, text="transfer")
         transaction_history_label = ttk.Label(label, text="Transaction History:")
         transaction_history = ttk.Treeview(label)
+        self.logout = ttk.Button(label, text="Logout", command=self.log_out)
 
         current_balance_label.pack()
         current_balance.pack()
@@ -37,3 +44,4 @@ class TreasurerView(ttk.Frame):
         transaction_history.pack() 
 
         label.pack()
+        self.logout.pack()
