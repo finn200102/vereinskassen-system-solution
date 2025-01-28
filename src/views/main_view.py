@@ -7,6 +7,9 @@ from src.views.login_window import LoginView
 from src.views.treasurer_window import TreasurerView
 from src.views.admin_window import AdministratorView
 from src.views.finance_window import FinanceView
+from src.controllers.auth_controller import AuthController
+from src.utils.data_handler import DataHandler
+from src.models.user import User
 
 class MainView(ttk.Frame):
     """The View for the Mainwindow"""
@@ -14,6 +17,12 @@ class MainView(ttk.Frame):
         """Initialize the MainView"""
         super().__init__(master)
         self.master = master
+        users_file = "data/files/users.csv"
+        accounts_file = "data/files/accounts.csv"
+        transactions_file = "data/files/transactions.csv"
+        self.data_handler = DataHandler(users_file, accounts_file, transactions_file)
+        self.data_handler.save_data(User("admin", "1234", "admin", "sport"))
+        self.auth_controller = AuthController(self.data_handler)
         self.current_view = None
         self.role = 0 # for testing 0 is treasurer
         self.setup_ui()
@@ -24,20 +33,21 @@ class MainView(ttk.Frame):
 
     def show_login(self):
         """Show the login View."""
-        self.current_view = LoginView(self, self.on_login_success)
+        self.current_view = LoginView(self, self.on_login_success, self.auth_controller)
         self.current_view.pack()
 
-    def on_login_success(self):
+    def on_login_success(self, user_role):
         """Shows the dashboard on login"""
+        self.role = user_role
         if self.current_view:
             self.current_view.destroy()
-        if self.role == 0:
-            self.current_view = TreasurerView(self)
-            self.current_view.pack()
-        if self.role == 1:
+        if self.role == "admin":
             self.current_view = AdministratorView(self)
             self.current_view.pack()
-        if self.role == 2:
+        if self.role == "treasurer":
+            self.current_view = TreasurerView(self)
+            self.current_view.pack()
+        if self.role == "referee":
             self.current_view = FinanceView(self)
             self.current_view.pack()
         
