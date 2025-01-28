@@ -7,11 +7,17 @@ from src.views.base_view import BaseView
 class AdministratorView(ttk.Frame):
     """The View for the Administrator"""
 
-    def __init__(self, parent):
+    def __init__(self, parent, setup_login):
         """Initilize the AdministratorView"""
+        self.logout = None
+        self.setup_login = setup_login
         super().__init__(parent)
         self.parent = parent
         self.setup_ui()
+
+    def log_out(self):
+        """Logout."""
+        self.setup_login()
 
     def setup_ui(self):
         """Setup the ui."""
@@ -33,6 +39,7 @@ class AdministratorView(ttk.Frame):
         user_select_label = ttk.Label(label, text="Select User:")
         user_select = ttk.Combobox(label, values = ["1","2"])
         create_acc = ttk.Button(label, text="Create Account")
+        self.logout = ttk.Button(label, text="Logout", command=self.log_out)
 
         admin_label.pack()
         username_label.pack()
@@ -52,5 +59,6 @@ class AdministratorView(ttk.Frame):
         user_select_label.pack()
         user_select.pack()
         create_acc.pack(pady=10)
+        self.logout.pack()
 
         label.pack()

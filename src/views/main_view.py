@@ -33,6 +33,8 @@ class MainView(ttk.Frame):
 
     def show_login(self):
         """Show the login View."""
+        if self.current_view:
+            self.current_view.destroy()
         self.current_view = LoginView(self, self.on_login_success, self.auth_controller)
         self.current_view.pack()
 
@@ -42,7 +44,7 @@ class MainView(ttk.Frame):
         if self.current_view:
             self.current_view.destroy()
         if self.role == "admin":
-            self.current_view = AdministratorView(self)
+            self.current_view = AdministratorView(self, self.show_login)
             self.current_view.pack()
         if self.role == "treasurer":
             self.current_view = TreasurerView(self)
