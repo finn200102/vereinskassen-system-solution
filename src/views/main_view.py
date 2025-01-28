@@ -10,6 +10,7 @@ from src.views.finance_window import FinanceView
 from src.controllers.auth_controller import AuthController
 from src.utils.data_handler import DataHandler
 from src.models.user import User
+from src.models.account import Account
 
 class MainView(ttk.Frame):
     """The View for the Mainwindow"""
@@ -36,6 +37,13 @@ class MainView(ttk.Frame):
         self.data_handler.save_data(User(username, password, role, department))
         print(f"Created new user {username}")
 
+    def create_account(self, account_id, department, treasurer):
+        """Create Account."""
+        treasurer = self.data_handler.load_data("user", treasurer)
+        self.data_handler.save_data(Account(account_id, department, 0.0, treasurer))
+        print(f"Created new account {account_id}")
+
+
     def show_login(self):
         """Show the login View."""
         if self.current_view:
@@ -49,7 +57,8 @@ class MainView(ttk.Frame):
         if self.current_view:
             self.current_view.destroy()
         if self.role == "admin":
-            self.current_view = AdministratorView(self, self.show_login, self.create_user)
+            self.current_view = AdministratorView(self, self.show_login, self.create_user,
+                                                  self.create_account, self.data_handler)
             self.current_view.pack()
         if self.role == "treasurer":
             self.current_view = TreasurerView(self, self.show_login)
