@@ -50,7 +50,7 @@ class LoginView(BaseView):
     def login(self):
         """Login into the MainView"""
         if self.login_valid():
-            self.on_login_callback(self.login_valid())
+            self.on_login_callback(self.login_valid(), self.username_entry.get())
             
             
         

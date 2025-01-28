@@ -19,6 +19,18 @@ class DataHandler:
         self.accounts = []
         self.transactions = []
 
+    def get_account_by_user(self, username):
+        """
+        Load Account by username
+
+        Args:
+            username(str): Username
+        """
+        account = next(filter(lambda account: account.treasurer.username == username, self.accounts))
+        print(account.treasurer.username)
+        return account
+        
+
     def save_data(self, data):
         """
         Save an specific data object

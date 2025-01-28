@@ -51,7 +51,7 @@ class MainView(ttk.Frame):
         self.current_view = LoginView(self, self.on_login_success, self.auth_controller)
         self.current_view.pack()
 
-    def on_login_success(self, user_role):
+    def on_login_success(self, user_role, username):
         """Shows the dashboard on login"""
         self.role = user_role
         if self.current_view:
@@ -61,7 +61,8 @@ class MainView(ttk.Frame):
                                                   self.create_account, self.data_handler)
             self.current_view.pack()
         if self.role == "treasurer":
-            self.current_view = TreasurerView(self, self.show_login)
+            account = self.data_handler.get_account_by_user(username)
+            self.current_view = TreasurerView(self, self.show_login, account)
             self.current_view.pack()
         if self.role == "referee":
             self.current_view = FinanceView(self)

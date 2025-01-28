@@ -7,10 +7,11 @@ from src.views.base_view import BaseView
 class TreasurerView(ttk.Frame):
     """The View for the Treasurer"""
 
-    def __init__(self, parent, setup_login):
+    def __init__(self, parent, setup_login, account):
         """Initilize the TreasurerView"""
         self.logout = None
         self.setup_login = setup_login
+        self.account = account
         super().__init__(parent)
         self.parent = parent
         self.setup_ui()
@@ -23,7 +24,7 @@ class TreasurerView(ttk.Frame):
         """Setup the ui."""
         label = ttk.Label(self, text="Treasurer Window")
         current_balance_label = ttk.Label(label, text="Current Balance:")
-        current_balance = ttk.Label(label, text="00.00")
+        current_balance = ttk.Label(label, text=f"{self.account.balance}")
         transaction_amount_label = ttk.Label(label, text="Enter your transfer amount:")
         transaction_amount = ttk.Entry(label)
         deposit_button = ttk.Button(label, text="deposit")
