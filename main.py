@@ -9,7 +9,7 @@ class TreasuryApp:
         """Initialize treasurey app"""
         self.root = tk.Tk()
         self.root.title("Treasury management system")
-        self.root.geometry('500x500')
+        self.root.geometry('1000x800')
         self.main_view = MainView(self.root)
         self.main_view.pack()
 
