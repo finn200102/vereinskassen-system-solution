@@ -7,9 +7,10 @@ from src.views.base_view import BaseView
 class FinanceView(ttk.Frame):
     """The View for the Finance"""
 
-    def __init__(self, parent, data_handler):
+    def __init__(self, parent, data_handler, setup_login):
         """Initilize the FinanceView"""
         self.data_handler = data_handler
+        self.setup_login = setup_login
         self.account = None
         self.status = None
         self.total_ammount = None
@@ -18,6 +19,9 @@ class FinanceView(ttk.Frame):
         self.parent = parent
         self.setup_ui()
 
+    def log_out(self):
+        """Logout."""
+        self.setup_login()
 
     def sel_account(self):
         """Select account."""
@@ -60,7 +64,7 @@ class FinanceView(ttk.Frame):
                                        values=(account.department, account.balance))
             total += account.balance
         self.total_ammount = ttk.Label(self, text=f"{total}")
-        
+        self.logout = ttk.Button(label, text="Logout", command=self.log_out)
         label.pack()
         account_label.pack()
         self.account.pack()
@@ -73,4 +77,5 @@ class FinanceView(ttk.Frame):
         self.total_overview.pack()
         total_ammount_label.pack()
         self.total_ammount.pack()
+        self.logout.pack()
 

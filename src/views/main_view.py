@@ -47,6 +47,8 @@ class MainView(ttk.Frame):
         print(f"Created new account {account_id}")
 
 
+
+
     def show_login(self):
         """Show the login View."""
         if self.current_view:
@@ -68,7 +70,7 @@ class MainView(ttk.Frame):
             self.current_view = TreasurerView(self, self.show_login, account, self.transaction_controller, self.data_handler)
             self.current_view.pack()
         if self.role == "referee":
-            self.current_view = FinanceView(self, self.data_handler)
+            self.current_view = FinanceView(self, self.data_handler, self.show_login)
             self.current_view.pack()
         
         
