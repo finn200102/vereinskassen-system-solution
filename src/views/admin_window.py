@@ -46,6 +46,10 @@ class AdministratorView(ttk.Frame):
         user_select = self.user_select.get()
         self.create_account_callback(account_id, department, user_select)
 
+    def save_state(self):
+        """Save state."""
+        self.data_handler.export_to_csv()
+
     def setup_ui(self):
         """Setup the ui."""
         label = ttk.Label(self)
@@ -68,6 +72,7 @@ class AdministratorView(ttk.Frame):
         user_select_label = ttk.Label(label, text="Select User:")
         self.user_select = ttk.Combobox(label, values = [user.username for user in self.data_handler.users])
         create_acc = ttk.Button(label, text="Create Account", command=self.create_account)
+        save_state = ttk.Button(label, text="Save", command=self.save_state)
         self.logout = ttk.Button(label, text="Logout", command=self.log_out)
 
         admin_label.pack()
@@ -90,6 +95,7 @@ class AdministratorView(ttk.Frame):
         user_select_label.pack()
         self.user_select.pack()
         create_acc.pack(pady=10)
+        save_state.pack()
         self.logout.pack()
 
         label.pack()
