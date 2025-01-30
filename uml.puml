@@ -2,19 +2,18 @@
 
 ' Enums
 enum UserRole {
-    ADMIN
-    TREASURER
-    FINANCE_REFEREE
+    admin
+    treasurer
+    referee
 }
 
-' Classes
+' Models
 class User {
     - username: str
-    - password_hash: str
-    - role: UserRole
+    - password: str
+    - role: str
     - department: str
     + authenticate(password: str): bool
-    + has_permission(action: str): bool
 }
 
 class Account {
@@ -23,71 +22,99 @@ class Account {
     - balance: float
     - treasurer: User
     + get_balance(): float
-    + add_transaction(transaction: Transaction): bool
+    + add(amount: float)
+    + remove(amount: float)
+    + add_transaction(transaction: Transaction)
 }
 
 class Transaction {
     - transaction_id: str
-    - timestamp: datetime
+    - time_stamp: datetime
     - amount: float
-    - type: str
+    - transaction_type: str
     - source_account: Account
     - target_account: Account
     - description: str
-    + is_valid(): bool
 }
 
+' Controllers
+class AuthController {
+    - data_handler: DataHandler
+    + check_password(username: str, password: str): bool
+    + login(username: str, password: str): str
+}
+
+class TransactionController {
+    - data_handler: DataHandler
+    + get_balance(account: Account): float
+    + transaction(account: Account, target_account: str, amount: float, description: str)
+    + get_accounts(): List[Account]
+}
+
+' Data Handler
 class DataHandler {
     - users_file: str
     - accounts_file: str
     - transactions_file: str
-    + save_data(): bool
-    + load_data(): bool
-    + export_to_csv(): bool
+    - users: List[User]
+    - accounts: List[Account]
+    - transactions: List[Transaction]
+    + get_account_by_user(username: str): Account
+    + get_transaction_by_account(account: Account): Set[Transaction]
+    + save_data(data: Union[User, Account, Transaction])
+    + load_data(data_type: str, key: str): Union[User, Account, Transaction]
+    + import_from_csv()
+    + export_to_csv()
 }
 
-' GUI Classes
-abstract class BaseWindow {
-    # root: Tk
-    # current_user: User
-    + show()
-    + hide()
+' Views
+abstract class BaseView {
+    + setup_ui()
 }
 
-class LoginWindow {
+class MainView {
+    - current_view: BaseView
+    - role: str
+    + show_login()
+    + on_login_success(user_role: str, username: str)
+}
+
+class LoginView {
     - username_entry: Entry
     - password_entry: Entry
-    + validate_login(): bool
-    + switch_to_appropriate_window()
+    + login()
+    + login_valid(): bool
 }
 
-class AdminWindow {
-    + create_account()
+class AdminView {
     + create_user()
-    + view_all_accounts()
-    + save_system_state()
+    + create_account()
+    + save_state()
+    + log_out()
 }
 
-class TreasurerWindow {
-    + make_transaction()
-    + view_account_history()
-    + view_balance()
+class TreasurerView {
+    + transfer()
+    + deposit()
+    + withdraw()
+    + log_out()
 }
 
-class FinanceWindow {
-    + view_all_accounts()
-    + view_account_details()
-    + generate_reports()
+class FinanceView {
+    + sel_account()
 }
 
 ' Relationships
 User "1" -- "1" UserRole
 Account "1" -- "1" User
 Transaction "0..*" -- "2" Account
-BaseWindow <|-- LoginWindow
-BaseWindow <|-- AdminWindow
-BaseWindow <|-- TreasurerWindow
-BaseWindow <|-- FinanceWindow
+BaseView <|-- LoginView
+BaseView <|-- AdminView
+BaseView <|-- TreasurerView
+BaseView <|-- FinanceView
+MainView -- BaseView
+AuthController -- DataHandler
+TransactionController -- DataHandler
 DataHandler -- User
 DataHandler -- Account
 DataHandler -- Transaction
