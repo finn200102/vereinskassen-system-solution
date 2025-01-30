@@ -1,0 +1,4 @@
+username,password,role,department
+admin,1234,admin,sport
+user,1234,treasurer,sport
+user2,1234,treasurer,football
