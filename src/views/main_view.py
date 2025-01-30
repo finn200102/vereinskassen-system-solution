@@ -8,6 +8,7 @@ from src.views.treasurer_window import TreasurerView
 from src.views.admin_window import AdministratorView
 from src.views.finance_window import FinanceView
 from src.controllers.auth_controller import AuthController
+from src.controllers.transaction_controller import TransactionController
 from src.utils.data_handler import DataHandler
 from src.models.user import User
 from src.models.account import Account
@@ -22,6 +23,7 @@ class MainView(ttk.Frame):
         accounts_file = "data/files/accounts.csv"
         transactions_file = "data/files/transactions.csv"
         self.data_handler = DataHandler(users_file, accounts_file, transactions_file)
+        self.transaction_controller = TransactionController(self.data_handler)
         self.data_handler.save_data(User("admin", "1234", "admin", "sport"))
         self.data_handler.import_from_csv()
         self.auth_controller = AuthController(self.data_handler)
@@ -63,7 +65,7 @@ class MainView(ttk.Frame):
             self.current_view.pack()
         if self.role == "treasurer":
             account = self.data_handler.get_account_by_user(username)
-            self.current_view = TreasurerView(self, self.show_login, account)
+            self.current_view = TreasurerView(self, self.show_login, account, self.transaction_controller, self.data_handler)
             self.current_view.pack()
         if self.role == "referee":
             self.current_view = FinanceView(self)
