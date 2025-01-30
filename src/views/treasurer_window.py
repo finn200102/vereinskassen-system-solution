@@ -69,8 +69,8 @@ class TreasurerView(ttk.Frame):
         transaction_history.column('#0', width=150)  # Main column
         transaction_history.column('ID', width=100)
         transaction_history.column('amount', width=150)
-        for transaction in self.data_handler.get_transaction_by_account(self.account):
-            transaction_history.insert('', 'end', 'item1', text='Item 1', values=(transaction.transaction_id, transaction.amount))
+        for idx, transaction in enumerate(self.data_handler.get_transaction_by_account(self.account)):
+            transaction_history.insert('', 'end', f'item{idx}', text='Item 1', values=(transaction.transaction_id, transaction.amount))
 
         
         self.logout = ttk.Button(label, text="Logout", command=self.log_out)

@@ -68,7 +68,7 @@ class MainView(ttk.Frame):
             self.current_view = TreasurerView(self, self.show_login, account, self.transaction_controller, self.data_handler)
             self.current_view.pack()
         if self.role == "referee":
-            self.current_view = FinanceView(self)
+            self.current_view = FinanceView(self, self.data_handler)
             self.current_view.pack()
         
         
