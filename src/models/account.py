@@ -24,7 +24,15 @@ class Account():
         """Return balance"""
         return self.balance
 
-    def add_transaction(transaction) -> bool:
+    def add(self, amount):
+        """Add balance"""
+        self.balance += amount
+
+    def remove(self, amount):
+        """Remove balance"""
+        self.balance -= amount
+
+    def add_transaction(self, transaction) -> bool:
         """
         Implement the transaction.
 

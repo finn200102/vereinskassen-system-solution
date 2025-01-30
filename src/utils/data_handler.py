@@ -29,6 +29,20 @@ class DataHandler:
         account = next(filter(lambda account: account.treasurer.username == username, self.accounts))
         print(account.treasurer.username)
         return account
+
+    def get_transaction_by_account(self, account):
+        """
+        Get Transaction by username
+
+        Args:
+            username(str): Username
+        """
+        t1 = list(filter(lambda transaction: transaction.source_account == account, self.transactions))
+        t2 = list(filter(lambda transaction: transaction.target_account == account, self.transactions))
+        
+        t = t1 + t2
+        return set(t)
+        
         
 
     def save_data(self, data):
@@ -65,6 +79,7 @@ class DataHandler:
             matches = list(filter(lambda transaction: transaction.transaction_id == key, self.transactions))
             return matches[0] if matches else None
 
+
     def import_from_csv(self):
         """
         Load the full data from the csvs
@@ -78,7 +93,7 @@ class DataHandler:
             with open(self.accounts_file, 'r', newline='') as f:
                 account_dicts = list(csv.DictReader(f))
                 self.accounts = [self.convert_dict_to_account(account_dict) for account_dict in account_dicts]
-            # Import accounts from csv
+            # Import transaction from csv
             with open(self.transactions_file, 'r', newline='') as f:
                 transaction_dicts = list(csv.DictReader(f))
                 self.transactions = [self.convert_dict_to_transaction(transaction_dict) for transaction_dict in transaction_dicts]
@@ -134,7 +149,7 @@ class DataHandler:
         """Convert account_dict to account"""
         account = Account(account_dict["account_id"],
                     account_dict["department"],
-                    account_dict["balance"],
+                    float(account_dict["balance"]),
                     self.load_data("user", account_dict["treasurer"]))
         return account
 

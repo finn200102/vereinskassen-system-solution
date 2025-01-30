@@ -1,5 +1,7 @@
 """This is the TransactionController Module"""
 __author__ = "7157747, Gellien, 8425470, Heidusch"
+from src.models.transaction import Transaction
+from datetime import datetime
 
 
 class TransactionController:
@@ -12,9 +14,15 @@ class TransactionController:
         """Return the balance of an account."""
         return account.balance
 
-    def transaction(self, account, target_account):
+    def transaction(self, account, target_account, amount, description):
         """Handle transacton."""
-        account.transaction(target_account)
+        target_account = self.data_handler.load_data("account", target_account)
+        transaction = Transaction(str(len(self.data_handler.transactions)), datetime.now(), amount, "",
+                    account, target_account, description)
+        self.data_handler.save_data(transaction)
+        account.add_transaction(transaction)
+        target_account.add_transaction(transaction)
+        
 
     def get_accounts(self):
         """Return list of all accounts."""
