@@ -23,6 +23,7 @@ class MainView(ttk.Frame):
         transactions_file = "data/files/transactions.csv"
         self.data_handler = DataHandler(users_file, accounts_file, transactions_file)
         self.data_handler.save_data(User("admin", "1234", "admin", "sport"))
+        self.data_handler.import_from_csv()
         self.auth_controller = AuthController(self.data_handler)
         self.current_view = None
         self.role = 0 # for testing 0 is treasurer
